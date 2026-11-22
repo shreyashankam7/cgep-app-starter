@@ -40,24 +40,3 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "uploads" {
   }
 }
 
-# The Lambda must be allowed to use the key, or every read and write fails.
-resource "aws_iam_role_policy" "lambda_kms" {
-  name = "intake-kms-access"
-  role = aws_iam_role.lambda.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Action = [
-        "kms:Encrypt",
-        "kms:Decrypt",
-        "kms:ReEncrypt*",
-        "kms:GenerateDataKey*",
-        "kms:DescribeKey",
-        "kms:CreateGrant"
-      ]
-      Resource = aws_kms_key.phi.arn
-    }]
-  })
-}
