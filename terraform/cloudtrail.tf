@@ -8,6 +8,7 @@ locals {
 resource "aws_s3_bucket" "cloudtrail" {
   bucket        = "${local.name_prefix}-cloudtrail-${local.suffix}"
   force_destroy = true
+  tags          = { DataClass = "audit-log" }
 }
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail" {
